@@ -1,5 +1,13 @@
 # Virtual Kubernetes clusters with OPA and Styra DAS
-This repo provides a crossplane composition to spin up virtual Kubernetes clusters in a host Kubernetes cluster (e.g. `minikube` or `kind` or any cluster really). Those virtual Kubernetes clusters are provisioned with [OPA](https://www.openpolicyagent.org/) and connected to the [Styra DAS](https://www.styra.com/) control plane. Read more about the how and why at https://medium.com/@jan.willies/a-kubernetes-controller-for-styra-das-9aa8e11c9947
+This repo provides a [crossplane](https://crossplane.io/) composition to spin up virtual Kubernetes clusters in a host Kubernetes cluster (e.g. `minikube` or `kind` or any cluster really). Those virtual Kubernetes clusters are provisioned with [OPAs](https://www.openpolicyagent.org/) and connected to the [Styra DAS](https://www.styra.com/) control plane. 
+
+More details can be found at the blog post: https://medium.com/@jan.willies/a-kubernetes-controller-for-styra-das-9aa8e11c9947
+
+![crossplane](./crossplane.png)
+
+At Styra DAS, there should be two Kubernetes systems which report the status of the respective clusters:
+
+![styra](./styra.png)
 
 ## Initial setup
 we need to install some prerequisites first
@@ -58,13 +66,11 @@ Now that we have everything in place we can get started and schedule some Kubern
 
 First create the composition and the corresponding composite resource definition:
 ```bash
-k apply -f vcluster/composition.yaml
-k apply -f vcluster/xrd.yaml
+k apply -f crossplane/composition.yaml
+k apply -f crossplane/xrd.yaml
 ```
 And now the actual clusters:
 ```bash
-k apply -f vcluster/xrc.yaml
+k apply -f crossplane/xrc.yaml
 ```
-Now there should be new namespaces in the host cluster, with pods running vcluster and opa. At Styra DAS, there should be two Kubernetes systems which report the status of the respective clusters:
-
-![styra](./styra.png)
+Now there should be new namespaces in the host cluster, with pods running vcluster and opa. At Styra DAS, there should be two Kubernetes systems which report the status of the respective clusters (see screenshots at the top).
