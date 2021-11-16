@@ -1,0 +1,13 @@
+apiVersion: styra.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  host: f00bar.styra.com
+  basepath: '/'
+  credentials:
+    secretRef:
+      key: token
+      name: styra-credentials
+      namespace: crossplane-system
+    source: Secret
