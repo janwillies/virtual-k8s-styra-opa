@@ -10,10 +10,10 @@ At Styra DAS, there should be two Kubernetes systems which report the status of 
 ![styra](./styra.png)
 
 ## Initial setup
-we need to install some prerequisites first
+We need to install some prerequisites first
 
 ### Kubernetes
-get a local kubernetes environment, for example via `kind` or `minikube`:
+Get a local kubernetes environment, for example via `kind` or `minikube`:
 ```bash
 minikube start
 # or
@@ -73,4 +73,20 @@ And now the actual clusters:
 ```bash
 k apply -f crossplane/xrc.yaml
 ```
-Now there should be new namespaces in the host cluster, with pods running vcluster and opa. At Styra DAS, there should be two Kubernetes systems which report the status of the respective clusters (see screenshots at the top).
+They will show up in the `default` namespace:
+```bash
+$ kubectl get cluster
+NAME        READY   CONNECTION-SECRET   AGE
+cluster-1   True                        6m18s
+cluster-2   True                        77s
+```
+For each a respective cluster-scoped resource is created:
+```bash
+$ kubectl get xcluster
+NAME              READY   COMPOSITION                AGE
+cluster-1-n9vr2   True    xcluster.cnp.example.org   6m18s
+cluster-2-tdz72   True    xcluster.cnp.example.org   77s
+```
+
+And finally there should be new `namespaces` in the host cluster, with pods running `vcluster` and `opa`.
+At Styra DAS, there should be two Kubernetes systems which report the status of the respective clusters (see screenshots at the top).
